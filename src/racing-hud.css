@@ -77,6 +77,10 @@
  #speedVeil::before,#speedVeil::after{background:linear-gradient(var(--inward),#17284947,transparent)}
 }
 #speedVeil[data-on=true]::before,#speedVeil[data-on=true]::after{opacity:var(--edge-alpha);visibility:visible;transition:opacity .085s ease-out}
+#modelSpeedEdges{display:none;width:100%;height:100%;opacity:0;transition:opacity .32s ease-out}
+#console[data-form=model] #speedVeil::before,#console[data-form=model] #speedVeil::after{content:none}
+#console[data-form=model] #modelSpeedEdges{display:block}
+#speedVeil[data-on=true] #modelSpeedEdges{opacity:var(--edge-alpha);transition-duration:.085s}
 @media(prefers-reduced-motion:reduce){#speedVeil{display:none}}
 #raceHUD .raceTopRight{top:3.9%;right:2.7%;gap:.36cqw}
 #raceHUD .lapHUD,#raceHUD .timeHUD,#raceHUD .coinHUD{padding:0;background:transparent;border:0;color:var(--pearl)}

@@ -675,6 +675,47 @@ function recordPresentedFrame(context,began,renderedAt){
  w.count=0;w.time=now;
 }
 
+// Paint in LCD coordinates before the cabinet's perspective transform. A
+// backdrop filter on a projected LCD can lose its inward fade when orbited.
+const modelSpeedEdges=(()=>{
+ const veil=byId('speedVeil'),canvas=byId('modelSpeedEdges');
+ const strip=document.createElement('canvas'),tiers=[null,[.14,.046],[.19,.070],[.24,.101]];
+ let output,sample,fadeUntil=0,mask;
+ return function paint(){
+  if(ModelCabinet.getForm()!=='model'||veil.hidden||mildCamera?.matches)return;
+  const now=performance.now();
+  if(veil.dataset.on==='true')fadeUntil=now+320;
+  else if(now>=fadeUntil)return;
+  const scene=renderer.cv;
+  const w=Math.min(scene.width,480),h=Math.max(1,Math.round(scene.height*w/scene.width));
+  if(w<2)return;
+  const [fraction,softness]=tiers[veil.dataset.tier],edge=Math.max(1,Math.round(w*fraction));
+  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;mask=null}
+  output??=canvas.getContext('2d');sample??=strip.getContext('2d');
+  // Downsample across the direction of travel, keeping vertical detail.
+  const sw=Math.max(2,Math.round(1/softness)),sh=Math.max(1,Math.round(h*.8));
+  if(strip.width!==sw||strip.height!==sh){strip.width=sw;strip.height=sh;mask=null}
+  if(!mask){
+   mask=output.createLinearGradient(0,0,w,0);
+   for(const [at,alpha] of [[0,1],[.04,1],[.30,.93],[.62,.53],[.84,.13],[1,0]]){
+    const color='rgba(0,0,0,'+alpha+')',stop=at*edge/w;
+    mask.addColorStop(stop,color);mask.addColorStop(1-stop,color);
+   }
+  }
+  output.clearRect(0,0,w,h);
+  for(const right of [false,true]){
+   sample.clearRect(0,0,sw,sh);
+   for(const layer of [skyLayer,scene,fxLayer]){
+    const width=layer.width*fraction,offset=width*softness;
+    sample.drawImage(layer,right?layer.width-width-offset:offset,0,width,layer.height,0,0,sw,sh);
+   }
+   output.drawImage(strip,right?w-edge:0,0,edge,h);
+  }
+  output.globalCompositeOperation='destination-in';output.fillStyle=mask;output.fillRect(0,0,w,h);
+  output.globalCompositeOperation='source-over';
+ };
+})();
+
 function render(dt){
  if(renderer.cpu?.busy){pendingDrawTime+=dt;return}
  dt=Math.min(.18,dt+pendingDrawTime);pendingDrawTime=0;
@@ -704,7 +745,7 @@ function render(dt){
  const worker=renderer.cpu instanceof WorkerRaster;
  // A completed worker bitmap can await v-sync while the next camera is in flight.
  const view=worker?Object.assign(Object.create(renderer),{cam:{...renderer.cam},s:renderer.s,c:renderer.c,sp:renderer.sp,cp:renderer.cp,f:renderer.f,asp:renderer.asp,theme:renderer.theme}):renderer;
- function layers(renderedAt){const started=performance.now();raceSky(skyLayer,view,fx.theme,skyTime);raceFX(fxLayer,view,fx,effectsTime);renderer.lastOverlayCost=performance.now()-started;recordPresentedFrame(ctx,began,renderedAt);
+ function layers(renderedAt){const started=performance.now();raceSky(skyLayer,view,fx.theme,skyTime);raceFX(fxLayer,view,fx,effectsTime);modelSpeedEdges();renderer.lastOverlayCost=performance.now()-started;recordPresentedFrame(ctx,began,renderedAt);
   if(!launchPresented&&renderer.renderWidth>1&&renderer.renderHeight>1){launchPresented=true;if(typeof RubyLaunch!=='undefined')RubyLaunch.presented()}
  }
  if(worker){const ownerTrack=track,ownerContext=visScreen(),ownerCars=cars;renderer.cpu.valid=()=>track===ownerTrack&&visScreen()===ownerContext&&cars===ownerCars;renderer.cpu.onpresent=layers;renderer.end()}else{renderer.end();layers()}

@@ -1182,6 +1182,10 @@ button:focus-visible{outline:2px solid #fff59b;outline-offset:2px;z-index:3}butt
  #speedVeil::before,#speedVeil::after{background:linear-gradient(var(--inward),#17284947,transparent)}
 }
 #speedVeil[data-on=true]::before,#speedVeil[data-on=true]::after{opacity:var(--edge-alpha);visibility:visible;transition:opacity .085s ease-out}
+#modelSpeedEdges{display:none;width:100%;height:100%;opacity:0;transition:opacity .32s ease-out}
+#console[data-form=model] #speedVeil::before,#console[data-form=model] #speedVeil::after{content:none}
+#console[data-form=model] #modelSpeedEdges{display:block}
+#speedVeil[data-on=true] #modelSpeedEdges{opacity:var(--edge-alpha);transition-duration:.085s}
 @media(prefers-reduced-motion:reduce){#speedVeil{display:none}}
 #raceHUD .raceTopRight{top:3.9%;right:2.7%;gap:.36cqw}
 #raceHUD .lapHUD,#raceHUD .timeHUD,#raceHUD .coinHUD{padding:0;background:transparent;border:0;color:var(--pearl)}
@@ -2034,7 +2038,7 @@ button:focus-visible{outline:2px solid #fff59b;outline-offset:2px;z-index:3}butt
 <filter id="lensR2" x="-25%" y="-10%" width="150%" height="120%" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation=".070 .005" edgeMode="duplicate" result="sweep"/><feImage href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAZCAIAAACZ2xhsAAAAIElEQVR42mPMfNLwgIEBglgYfjDAAQvDd2TOD5ycUWUAV5IcB3AA2SIAAAAASUVORK5CYII=" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="direction"/><feDisplacementMap in="sweep" in2="direction" scale=".069" xChannelSelector="R" yChannelSelector="G"/></filter>
 <filter id="lensR3" x="-25%" y="-10%" width="150%" height="120%" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation=".101 .007" edgeMode="duplicate" result="sweep"/><feImage href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAZCAIAAACZ2xhsAAAAIElEQVR42mPMfNLwgIEBglgYfjDAAQvDd2TOD5ycUWUAV5IcB3AA2SIAAAAASUVORK5CYII=" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="direction"/><feDisplacementMap in="sweep" in2="direction" scale=".102" xChannelSelector="R" yChannelSelector="G"/></filter>
 </defs></svg>
-<div id="speedVeil" data-on="false" data-tier="1" aria-hidden="true" hidden></div>
+<div id="speedVeil" data-on="false" data-tier="1" aria-hidden="true" hidden><canvas id="modelSpeedEdges" width="1" height="1"></canvas></div>
 <details id="lapRecord" hidden><summary id="lapRecordLabel" aria-label="BEST · 最快圈速"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.2 1.5h3.6M8 1.5v2m4.5 1.6 1.2-1.2M8 6v2.6l1.8.9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="9" r="5.4" fill="none" stroke="currentColor" stroke-width="1.45"/></svg>BEST</summary><strong id="lapRecordTime">—</strong></details>
 <span id="rearBadge" hidden>◀ 后视</span><div id="titleView" class="badgeLayer"><div id="wordmark" aria-label="MARIO KART 8"><svg viewBox="0 0 258 47" aria-hidden="true"><use href="#rubyLogo"/></svg></div><span class="edition">RUBY TOUR<small class="menuCredit">N1n3VASthR33H</small></span><div class="courseplate"><small id="cupLine">CROSSING CUP · GCN</small><b id="courseTitle">琥珀海港</b><span id="courseHint"></span></div></div>
 <svg class="cupDefinitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><symbol id="rubyCupIcon" viewBox="0 0 40 40"><path d="M12 6h16l-1 9c-.5 4-3.1 6.6-6 7.5v4.2l5 2.2v3H14v-3l5-2.2v-4.2c-3-.9-5.5-3.5-6-7.5Z" fill="currentColor"/><path d="M12.8 9h-6c0 5 2.1 8.3 7.4 8.8M27.2 9h6c0 5-2.1 8.3-7.4 8.8" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="m16 9-1.5 3.6 3.3 4.5 3.1-7.1h4" fill="none" stroke="#563c21" stroke-width="1.15"/><path d="M6 33c-2.6-1.2-3.6-3-4-5.2 3.2.5 4.6 2 5.2 4M8.4 35c-3.5.1-5 .1-6.5-2 2.8-.9 5.6-.1 6.5 2m25.6-2c2.6-1.2 3.6-3 4-5.2-3.2.5-4.6 2-5.2 4m-1.2 3c3.5.1 5 .1 6.5-2-2.8-.9-5.6-.1-6.5 2" fill="currentColor" opacity=".82"/></symbol></svg>
@@ -18891,6 +18895,47 @@ function recordPresentedFrame(context,began,renderedAt){
  w.count=0;w.time=now;
 }
 
+// Paint in LCD coordinates before the cabinet's perspective transform. A
+// backdrop filter on a projected LCD can lose its inward fade when orbited.
+const modelSpeedEdges=(()=>{
+ const veil=byId('speedVeil'),canvas=byId('modelSpeedEdges');
+ const strip=document.createElement('canvas'),tiers=[null,[.14,.046],[.19,.070],[.24,.101]];
+ let output,sample,fadeUntil=0,mask;
+ return function paint(){
+  if(ModelCabinet.getForm()!=='model'||veil.hidden||mildCamera?.matches)return;
+  const now=performance.now();
+  if(veil.dataset.on==='true')fadeUntil=now+320;
+  else if(now>=fadeUntil)return;
+  const scene=renderer.cv;
+  const w=Math.min(scene.width,480),h=Math.max(1,Math.round(scene.height*w/scene.width));
+  if(w<2)return;
+  const [fraction,softness]=tiers[veil.dataset.tier],edge=Math.max(1,Math.round(w*fraction));
+  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;mask=null}
+  output??=canvas.getContext('2d');sample??=strip.getContext('2d');
+  // Downsample across the direction of travel, keeping vertical detail.
+  const sw=Math.max(2,Math.round(1/softness)),sh=Math.max(1,Math.round(h*.8));
+  if(strip.width!==sw||strip.height!==sh){strip.width=sw;strip.height=sh;mask=null}
+  if(!mask){
+   mask=output.createLinearGradient(0,0,w,0);
+   for(const [at,alpha] of [[0,1],[.04,1],[.30,.93],[.62,.53],[.84,.13],[1,0]]){
+    const color='rgba(0,0,0,'+alpha+')',stop=at*edge/w;
+    mask.addColorStop(stop,color);mask.addColorStop(1-stop,color);
+   }
+  }
+  output.clearRect(0,0,w,h);
+  for(const right of [false,true]){
+   sample.clearRect(0,0,sw,sh);
+   for(const layer of [skyLayer,scene,fxLayer]){
+    const width=layer.width*fraction,offset=width*softness;
+    sample.drawImage(layer,right?layer.width-width-offset:offset,0,width,layer.height,0,0,sw,sh);
+   }
+   output.drawImage(strip,right?w-edge:0,0,edge,h);
+  }
+  output.globalCompositeOperation='destination-in';output.fillStyle=mask;output.fillRect(0,0,w,h);
+  output.globalCompositeOperation='source-over';
+ };
+})();
+
 function render(dt){
  if(renderer.cpu?.busy){pendingDrawTime+=dt;return}
  dt=Math.min(.18,dt+pendingDrawTime);pendingDrawTime=0;
@@ -18920,7 +18965,7 @@ function render(dt){
  const worker=renderer.cpu instanceof WorkerRaster;
  // A completed worker bitmap can await v-sync while the next camera is in flight.
  const view=worker?Object.assign(Object.create(renderer),{cam:{...renderer.cam},s:renderer.s,c:renderer.c,sp:renderer.sp,cp:renderer.cp,f:renderer.f,asp:renderer.asp,theme:renderer.theme}):renderer;
- function layers(renderedAt){const started=performance.now();raceSky(skyLayer,view,fx.theme,skyTime);raceFX(fxLayer,view,fx,effectsTime);renderer.lastOverlayCost=performance.now()-started;recordPresentedFrame(ctx,began,renderedAt);
+ function layers(renderedAt){const started=performance.now();raceSky(skyLayer,view,fx.theme,skyTime);raceFX(fxLayer,view,fx,effectsTime);modelSpeedEdges();renderer.lastOverlayCost=performance.now()-started;recordPresentedFrame(ctx,began,renderedAt);
   if(!launchPresented&&renderer.renderWidth>1&&renderer.renderHeight>1){launchPresented=true;if(typeof RubyLaunch!=='undefined')RubyLaunch.presented()}
  }
  if(worker){const ownerTrack=track,ownerContext=visScreen(),ownerCars=cars;renderer.cpu.valid=()=>track===ownerTrack&&visScreen()===ownerContext&&cars===ownerCars;renderer.cpu.onpresent=layers;renderer.end()}else{renderer.end();layers()}

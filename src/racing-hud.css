@@ -1,0 +1,198 @@
+/* Use the course itself as the background. A narrow ink edge keeps the same
+   lettering readable against white snow, a bright sky and a night road. */
+#raceHUD,#raceOverlay,#oneRace,#rearBadge{
+ --ink:#182136;--pearl:#fffaf0;--cyan:#96f4ff;--gold:#ffdb73;
+ --edge:clamp(1px,.28cqw,2px);--cut:0 .19cqw .05cqw #12192edd;
+ font-variant-numeric:tabular-nums;pointer-events:none;
+}
+#turnRail[hidden],#driveReadout[hidden],#hitCue[hidden]{display:none}
+#turnRail,.driveReadout,.hitBadge,#raceHUD .lapHUD,#raceHUD .timeHUD,#raceHUD .coinHUD,
+#raceHUD .itemQty,#raceOverlay #announce,#raceOverlay #toast,#raceOverlay .startSignal small,#rearBadge{
+ -webkit-text-stroke:var(--edge) var(--ink);paint-order:stroke fill;text-shadow:var(--cut);
+}
+#turnRail{
+ --cue:var(--cyan);position:absolute;left:50%;top:21%;transform:translate(-50%,-50%);
+ margin:0;padding:0;border:0;border-radius:0;background:transparent;min-width:0;
+ color:var(--pearl);pointer-events:none;transition:opacity .16s ease-out;
+}
+#turnRail[data-phase=near]{--cue:var(--gold)}
+#turnRail[data-phase=enter]{--cue:#ffab9e}
+#turnRail[data-exit=true]{opacity:0}
+.turnReadout{display:grid;position:relative;grid-template-columns:auto auto auto;align-items:center;gap:.62cqw;padding:0 .2cqw .55cqw}
+.turnSymbol{display:grid;place-items:center;align-self:stretch}
+#turnRail .turnGlyph{display:block;width:clamp(17px,5.9cqw,42px);height:auto;max-height:none;color:var(--cue);filter:drop-shadow(0 1px 0 #172136) drop-shadow(0 -1px 0 #172136)}
+#turnRail[data-dir=left] .turnGlyph{transform:scaleX(-1)}
+.turnGlyph path{display:none}
+#turnRail[data-shape=curve] .cueCurve,#turnRail[data-shape=sharp] .cueSharp,#turnRail[data-shape=hairpin] .cueHairpin{display:block}
+.turnData{display:grid;gap:.18cqw;white-space:nowrap}
+.turnData strong{font:950 italic clamp(10px,2.76cqw,21px)/1.04 system-ui;color:var(--pearl)}
+.turnData>small{font:760 clamp(7px,1.46cqw,11px)/1 system-ui;letter-spacing:.05em;color:var(--cue)}
+.turnMetric{display:flex;align-items:baseline;justify-content:flex-end;gap:.12cqw;min-width:3.7cqw;padding-left:.45cqw;color:var(--cue)}
+.turnMetric>b{font:950 italic clamp(12px,3.42cqw,25px)/.94 Arial,sans-serif;letter-spacing:-.06em}
+.turnMetric>small{font:800 italic clamp(7px,1.48cqw,11px)/1 Arial,sans-serif;color:var(--pearl)}
+#turnRail[data-phase=enter] .turnMetric>b{letter-spacing:.015em}
+.turnTrack{position:absolute;left:36%;right:1%;bottom:0;height:clamp(1.5px,.32cqw,3px);transform:skewX(-24deg);background:#ffffff66;box-shadow:0 1px 0 #152438}
+.turnTrack>i,.driveTrack>b{display:block;height:100%;background:var(--cue);transform-origin:left;transition:transform .13s linear}
+#turnRail.cueIn{animation:paceIn .23s cubic-bezier(.18,.78,.23,1)}
+@keyframes paceIn{from{opacity:.12;translate:0 -.75cqw;scale:.93}to{opacity:1;translate:0 0;scale:1}}
+#turnRail[data-phase=enter] .turnGlyph{animation:entryBeat .26s ease-out}
+@keyframes entryBeat{35%{scale:1.16}}
+#studio[data-cue=off] #turnRail{display:none}
+#studio[data-cue=arrow] .turnReadout{grid-template-columns:auto;gap:0;padding:0}
+#studio[data-cue=arrow] .turnData,#studio[data-cue=arrow] .turnMetric{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+#studio[data-cue=arrow] .turnTrack{display:none}
+
+.driveReadout{
+ --cue:#dcf5ff;position:absolute;left:50%;bottom:3.4%;transform:translateX(-50%);
+ display:grid;grid-template-columns:auto 1fr;align-items:center;gap:.65cqw;white-space:nowrap;
+ padding:0 .35cqw .63cqw;color:var(--pearl);font:870 italic clamp(8px,2.15cqw,16px)/1.12 system-ui;
+}
+.driveReadout[data-level="1"]{--cue:var(--cyan)}.driveReadout[data-level="2"]{--cue:#ffbd72}
+.driveReadout[data-level="3"]{--cue:#f3aaff}.driveReadout[data-mode=boost]{--cue:var(--gold);color:#fff2b9}
+.driveGlyph{display:flex;gap:.26cqw;transform:skewX(-25deg);align-items:center;color:var(--cue)}
+.driveGlyph>i{width:clamp(1px,.45cqw,3px);height:1.65cqw;background:currentColor;box-shadow:0 1px 0 var(--ink);opacity:.45}
+.driveReadout[data-level="1"] .driveGlyph i:nth-child(1),.driveReadout[data-level="2"] .driveGlyph i:nth-child(-n+2),.driveReadout[data-level="3"] .driveGlyph i,.driveReadout[data-mode=boost] .driveGlyph i{opacity:1}
+.driveTrack{position:absolute;left:0;right:0;bottom:0;height:clamp(1.5px,.33cqw,3px);background:#ebfaff65;box-shadow:0 1px 0 var(--ink);transform:skewX(-24deg)}
+.driveReadout.gainTier{animation:tierLift .25s ease-out}
+@keyframes tierLift{35%{scale:1.09;color:var(--cue)}}
+/* Real scene colour from two compositor strips. The tiny displacement field
+   pulls each shoulder outward and fans toward the corners of the LCD. */
+.lensDefs{position:absolute;pointer-events:none}
+#speedVeil{position:absolute;inset:0;z-index:2;pointer-events:none;--edge-width:14%;--edge-alpha:.84;--left:url(#lensL1);--right:url(#lensR1);--soft:2px}
+#speedVeil[data-tier="2"]{--edge-width:19%;--edge-alpha:.94;--left:url(#lensL2);--right:url(#lensR2);--soft:3.8px}
+#speedVeil[data-tier="3"]{--edge-width:24%;--edge-alpha:1;--left:url(#lensL3);--right:url(#lensR3);--soft:5.5px}
+#speedVeil::before,#speedVeil::after{content:"";position:absolute;top:0;bottom:0;width:calc(var(--edge-width)/2.6);
+ transform:scaleX(2.6);-webkit-backdrop-filter:blur(var(--soft));backdrop-filter:blur(var(--soft));
+ -webkit-mask-image:linear-gradient(var(--inward),#000 4%,#000e 30%,#0008 62%,#0002 84%,transparent);
+ mask-image:linear-gradient(var(--inward),#000 4%,#000e 30%,#0008 62%,#0002 84%,transparent);
+ opacity:0;visibility:hidden;transition:opacity .32s ease-out,visibility 0s .32s}
+#speedVeil::before{left:0;transform-origin:left center;--inward:to right;--optic:var(--left)}
+#speedVeil::after{right:0;transform-origin:right center;--inward:to left;--optic:var(--right)}
+/* Some WebKit and Gecko compositors parse SVG filter URLs but ignore the
+   backdrop. Their scaled spatial blur stays directional on the same strips. */
+@supports (backdrop-filter:url("#lensL1")) and (not (-webkit-touch-callout:none)) and (not (-moz-appearance:none)){
+ #speedVeil::before,#speedVeil::after{width:var(--edge-width);transform:none;backdrop-filter:var(--optic)}
+}
+@supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
+ #speedVeil::before,#speedVeil::after{background:linear-gradient(var(--inward),#17284947,transparent)}
+}
+#speedVeil[data-on=true]::before,#speedVeil[data-on=true]::after{opacity:var(--edge-alpha);visibility:visible;transition:opacity .085s ease-out}
+@media(prefers-reduced-motion:reduce){#speedVeil{display:none}}
+#raceHUD .raceTopRight{top:3.9%;right:2.7%;gap:.36cqw}
+#raceHUD .lapHUD,#raceHUD .timeHUD,#raceHUD .coinHUD{padding:0;background:transparent;border:0;color:var(--pearl)}
+#raceHUD .lapHUD{gap:.40cqw;font:950 italic clamp(10px,3.47cqw,25px)/1 Arial,sans-serif;letter-spacing:-.035em}
+#raceHUD .lapHUD svg{width:3.2cqw;height:2.85cqw}
+#raceHUD .timeHUD{font:800 italic clamp(8px,2.02cqw,15px)/1.05 Arial,sans-serif}
+#lapHUD.last{color:var(--gold)}
+#lapHUD.lapHit{display:inline-block;transform-origin:right;animation:lapCut .39s ease-out}
+@keyframes lapCut{0%{transform:translateX(12%) scale(1.16);color:var(--gold)}70%{transform:translateX(-1%) scale(.98)}}
+#raceHUD .uItem{left:3%;top:4%;gap:0}
+#raceHUD .itemSignature{position:absolute;left:-8%;top:calc(100% + clamp(2px,.7cqw,5px));width:116%;height:auto;aspect-ratio:231 / 28;
+ fill:#fff;opacity:.72;filter:drop-shadow(0 .6px .6px #18223899);pointer-events:none}
+#raceHUD .slot{position:relative;display:grid;place-items:center;width:9cqw;height:9cqw;padding:.28cqw;overflow:hidden;
+ border:clamp(1px,.36cqw,3px) solid #dbe4ed;border-radius:23%;background:linear-gradient(145deg,#43566bea,#233047ed 72%);
+ box-shadow:inset 0 1px 0 #ffffff56,inset 0 -.26cqw .42cqw #0e162966,0 .23cqw .35cqw #17213680}
+#raceHUD .slot .currentItem{width:89%;height:89%;filter:drop-shadow(0 .19cqw .09cqw #172136c9)}
+#raceHUD .slot[data-art=""]:after,#raceHUD .slot:empty:after{content:"";width:28%;height:28%;border:clamp(1px,.26cqw,2px) dashed #f0f4f2cc;border-radius:12%;background:none;box-shadow:0 .12cqw .12cqw #1821366b}
+#raceHUD .slot.flash{animation:itemFlash .27s ease-out}
+@keyframes itemFlash{0%{transform:scale(.97)}48%{transform:scale(1.055)}100%{transform:scale(1)}}
+#raceHUD .itemQty{right:-.78cqw;bottom:-.1cqw;min-width:0;padding:0;background:none;border:0;color:#fff0a7;font:950 italic clamp(8px,2.44cqw,18px)/1 Arial,sans-serif}
+#raceHUD .placeHUD{color:#ffdb6b;-webkit-text-stroke:clamp(1px,.45cqw,3.15px) #302535;filter:drop-shadow(0 .20cqw 0 #161d31)}
+#raceHUD .coinHUD{gap:.26cqw;font:950 italic clamp(11px,3.75cqw,27px)/1 Arial,sans-serif;letter-spacing:-.035em}
+#coinSprite{display:grid;place-items:center}
+#raceHUD .coinHUD svg{width:3.63cqw;height:3.63cqw;filter:drop-shadow(0 1px 0 #242437c9)}
+
+#hitCue{--hit:#ffe18b;position:absolute;inset:0;pointer-events:none;transition:opacity .18s ease-out}
+#hitCue[data-release=true]{opacity:0}
+#hitCue[data-kind=shell],#hitCue[data-kind=bomb],#hitCue[data-kind=fireball]{--hit:#ffab90}
+#hitCue[data-kind=green]{--hit:#9aefbb}#hitCue[data-kind=spiny]{--hit:#bfc8ff}
+#hitCue[data-kind=lightning]{--hit:#bde8ff}
+.hitBorder{position:absolute;top:36%;left:0;width:.56cqw;height:20%;transform:skewY(-13deg);background:var(--hit);opacity:0;animation:hitRim .4s ease-out}
+#hitCue[data-kind=lightning] .hitBorder{display:none}
+@keyframes hitRim{0%{opacity:.8}100%{opacity:0}}
+.hitBadge{position:absolute;left:2.8%;top:33%;max-width:32%;display:flex;align-items:center;gap:.77cqw;color:var(--pearl);animation:hitBadgeIn .24s ease-out}
+.hitBadge i{flex:none;width:clamp(15px,4.58cqw,34px);line-height:0;filter:drop-shadow(0 .13cqw .07cqw #142133c9)}
+.hitBadge svg{width:100%;height:auto}
+.hitBadge span{display:grid;gap:.28cqw}
+.hitBadge strong{font:950 italic clamp(10px,2.74cqw,21px)/1.08 system-ui}
+.hitBadge em,.hitBadge small{font:750 clamp(7px,1.53cqw,12px)/1.15 system-ui;color:var(--pearl)}
+.hitBadge small{font-size:clamp(7px,1.35cqw,10px);color:var(--hit);letter-spacing:.06em}
+@keyframes hitBadgeIn{from{opacity:.18;translate:-.95cqw 0;scale:.91}to{opacity:1;translate:0 0;scale:1}}
+#raceOverlay #announce,#raceOverlay #toast,#rearBadge{padding:0;background:transparent;border:0;box-shadow:none;color:var(--pearl)}
+#raceOverlay #announce{top:4%;color:#fff0a6;font:960 italic clamp(11px,3.0cqw,22px)/1.08 system-ui}
+#raceOverlay #toast{--news:var(--cyan);bottom:auto;top:4.0%;font:820 clamp(8px,2.1cqw,16px)/1.15 system-ui;max-width:49%;transition:opacity .16s ease-out}
+#raceOverlay #toast[data-topic=hit]{--news:#ffadac}#raceOverlay #toast[data-topic=item]{--news:var(--gold)}
+#raceOverlay #toast:not(:empty):before{content:"";display:inline-block;width:.55em;height:.55em;vertical-align:.07em;margin-right:.39em;background:var(--news);clip-path:polygon(0 55%,45% 0,100% 0,55% 55%,55% 100%,0 100%)}
+#raceOverlay #toast[data-topic=item]:before{clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+#raceOverlay #toast[data-release=true]{opacity:0}
+#raceOverlay #toast.tickerIn{animation:tickerArrival .19s ease-out}
+@keyframes tickerArrival{from{opacity:.25;translate:0 -.55cqw}to{opacity:1;translate:0 0}}
+#announce:not(:empty)+#toast,#startSignal:not([hidden])~#toast{display:none}
+#raceOverlay .signalPod{padding:0;gap:.9cqw;background:none;border:0;box-shadow:none}
+#raceOverlay .startSignal small{background:none;border:0;padding:0;color:var(--pearl)}
+#raceOverlay .startSignal.go small{color:var(--gold)}
+#rearBadge{font-weight:900}
+#livePane .turnMark{color:#ae3c54;background:none;box-shadow:none;padding:0}
+#livePane .turnMark[data-dir=straight]{color:#58697a}
+@container lcd (max-width:300px){
+ #turnRail .turnGlyph{width:20px}.turnReadout{gap:3px}
+ .turnData strong{font-size:12px}.turnData>small{font-size:8px}.turnMetric>b{font-size:15px}
+ #raceHUD .slot{width:25px;height:25px}#raceHUD .lapHUD{font-size:12px}
+ #raceHUD .lapHUD svg{width:9px;height:9px}#raceHUD .coinHUD{font-size:14px}
+ #raceHUD .coinHUD svg{width:10px;height:10px}
+ .hitBadge{max-width:45%}.hitBadge i{width:17px}.hitBadge strong{font-size:12px}
+ .hitBadge small,.hitBadge em{font-size:8px}.driveReadout{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){
+ #turnRail.cueIn,#turnRail[data-phase=enter] .turnGlyph,#lapHUD.lapHit,.driveReadout.gainTier,
+ .hitBadge,.hitBorder,#raceOverlay #toast.tickerIn,
+ #raceHUD .slot.flash,#raceHUD .stamp,#raceOverlay .stamp{animation:none}
+ #turnRail,.turnTrack>i,.driveTrack>b,#hitCue,#raceOverlay #toast{transition:none}
+}
+
+#startSignal[data-charging=true] small:after{content:"";position:absolute;left:0;right:0;bottom:-.45cqw;height:max(2px,.32cqw);
+ background:linear-gradient(90deg,#ffbe42,#fff0a4);transform-origin:left;transform:scaleX(var(--start-charge,0))}
+#startSignal small{position:relative}
+
+/* The midpoint belongs to the physical LCD, including when the cabinet is rotated. */
+#raceOverlay #announce{inset:50% auto auto 50%;width:max-content;max-width:none;transform:translate(-50%,-50%);text-shadow:none;z-index:4}
+.raceStampInk{--word:#fff4cd;--rail:#90f2ff;--beat:1.08s;position:relative;display:block;white-space:nowrap;transform-origin:50% 50%;animation:raceFlyOut var(--beat) both}
+.raceStampInk b{display:block;font:1000 italic clamp(23px,8.9cqw,88px)/1 system-ui,sans-serif;color:var(--word);letter-spacing:-.045em;
+ -webkit-text-stroke:clamp(1px,.55cqw,4px) #23253b;paint-order:stroke fill;text-shadow:0 .36cqw 0 #51394f,0 .54cqw .32cqw #17192788}
+.raceStampInk small{position:absolute;top:calc(100% + .65cqw);left:50%;transform:translateX(-50%);font:900 clamp(7px,1.7cqw,15px)/1 system-ui,sans-serif;letter-spacing:.16em;color:var(--rail);white-space:nowrap;-webkit-text-stroke:clamp(1px,.24cqw,2px) #22283b;paint-order:stroke fill}
+.raceStampInk[data-kind=count]{--beat:.78s;--word:#fffaf0}
+.raceStampInk[data-kind=count] b,.raceStampInk[data-kind=go] b{font-size:clamp(34px,13.8cqw,132px)}
+.raceStampInk[data-kind=go]{--beat:.80s;--word:#ffe071;--rail:#fff7dd}
+.raceStampInk[data-kind=final]{--word:#ffe071;--rail:#fff7dd}
+@keyframes raceFlyOut{
+ 0%{transform:scale(.68);opacity:0}14%{transform:scale(1.05);opacity:1}
+ 25%{transform:scale(1);opacity:1}54%{transform:scale(1.06);opacity:1}
+ 80%{transform:scale(1.55);opacity:.52}100%{transform:scale(2.13);opacity:0}
+}
+#stuckRecovery[hidden]{display:none}
+.signatureInk{display:block;width:100%;height:auto;overflow:visible}
+.menuCredit{position:relative;display:block;width:clamp(62px,14.5cqw,107px);margin:.35em 0 0 auto}
+.lobbyMast .menuCredit{margin-left:0}
+.sigSweep{display:none}
+#lapRecord{display:block;text-align:right;width:max-content;pointer-events:none;color:#fff1b9;font-variant-numeric:tabular-nums;text-shadow:0 1px 2px #182437,0 0 3px #192b3e}
+#lapRecord[hidden]{display:none}
+#upper>#lapRecord{position:absolute;right:3.1%;top:19.5%;z-index:6}
+#console[data-cup-lobby] #upper>#lapRecord{top:25%}
+#upper:has(#cupSchedule:not([hidden]))>#lapRecord{visibility:hidden}
+#lapRecord summary{position:relative;display:inline-flex;align-items:center;gap:.32em;padding:.15em 0;list-style:none;cursor:pointer;pointer-events:auto;
+ color:#fff7dc;font:900 italic clamp(9px,2.1cqw,16px)/1 system-ui,sans-serif;letter-spacing:.04em}
+#lapRecord summary::-webkit-details-marker{display:none}
+#lapRecord summary::after{content:"";position:absolute;inset:-.4em -.25em}
+#lapRecord summary:focus-visible{outline:1px solid #ffdf7d;outline-offset:2px}
+#lapRecord summary svg{width:1em;height:1em;color:#ffdf7d}
+#lapRecord strong{display:block;margin-top:.22cqw;font:900 italic clamp(12px,3.15cqw,25px)/1.05 system-ui,sans-serif;letter-spacing:.012em;-webkit-text-stroke:clamp(1px,.26cqw,2px) #293245;paint-order:stroke fill}
+#lapRecord:not([open]) strong{display:none}
+.raceTopRight #lapRecord{margin-top:.6cqw}
+.raceTopRight #lapRecord strong{font-size:clamp(10px,2.67cqw,20px)}
+.raceTopRight #lapRecord summary{font-size:clamp(9px,1.8cqw,14px)}
+.singleMast>span,.edition{text-align:right}
+#stuckRecovery{position:absolute;z-index:5;bottom:15%;left:50%;transform:translateX(-50%);width:max-content;max-width:80%;padding:.55cqw 1.55cqw;border:0;border-bottom:.28cqw solid #ffda75;background:#253349ed;color:white;pointer-events:auto;cursor:pointer;border-radius:.55cqw;font:800 clamp(10px,2.4cqw,18px)/1.2 system-ui}
+#stuckRecovery small{display:block;font:700 clamp(8px,1.6cqw,13px)/1.3 system-ui;color:#ffdb78}
+#pauseRecovery{align-self:center;flex:none;margin:auto 0;padding:.6em 1.2em;border:1px solid #8191a5;border-radius:.5em;background:#edf4f9;color:#233947;font:850 clamp(10px,2.6cqw,16px)/1 system-ui}
+#pauseRecovery:disabled{opacity:.42}
+@media(prefers-reduced-motion:reduce){.raceStampInk{animation-name:raceFlyQuiet}@keyframes raceFlyQuiet{0%,75%{opacity:1}100%{opacity:0}}}

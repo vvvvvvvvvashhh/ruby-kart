@@ -1,0 +1,143 @@
+/* The exterior only chooses hardware or the orbit camera. Game actions live in an LCD. */
+.deviceTools,.modelTools{position:absolute;top:max(5px,env(safe-area-inset-top));z-index:6;display:flex;align-items:center;gap:4px}
+.deviceTools,.modelTools{transform:scale(var(--cabinet-scale,1))}
+.deviceTools{transform-origin:top right;right:max(7px,env(safe-area-inset-right));padding:2px;border-radius:10px;background:#101c2be6}
+.deviceTools button,.modelTools button{display:grid;place-items:center;padding:1px 3px;border:1px solid transparent;border-radius:6px;color:#e4eef7;background:transparent;touch-action:manipulation}
+.deviceTools button{width:38px;height:29px;position:relative}
+.deviceTools svg{display:block;width:100%;height:100%}.deviceTools button[aria-pressed=true]{background:#405268;border-color:#809ab0}
+.deviceTools button[aria-pressed=true]::after{content:"";position:absolute;bottom:-1px;width:11px;height:2px;border-radius:2px;background:#ffd06d}
+.modelTools{transform-origin:top left;left:max(7px,env(safe-area-inset-left));pointer-events:none}
+.modelTools button{display:flex;align-items:center;gap:3px;pointer-events:auto;padding:4px 7px;border-color:#7790a66b;background:#14243aec;font:730 10px/1.2 system-ui}
+.modelTools svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.modelOrbitHint{font:700 10px/1.2 system-ui;color:#dbe8ef;text-shadow:0 1px 3px #14243a}
+.deviceTools button:focus-visible,.modelTools button:focus-visible{outline:2px solid #60dcf1;outline-offset:-1px}
+@media(max-width:660px),(max-height:420px){.modelOrbitHint{display:none}.deviceTools button{width:34px;height:24px}}
+#deviceDialog{--set-ink:#14243a;--set-ruby:#a81f3f;--set-cyan:#60dcf1;--set-line:#cdd7df;--set-paper:#eff4fa;--set-dim:#485d70;
+ container:pitLCD / size;box-sizing:border-box;position:absolute;z-index:38;inset:0;margin:0;padding:0;width:100%;height:100%;max-width:none;max-height:none;
+ overflow:hidden;pointer-events:auto;touch-action:auto;color:var(--set-ink);background:var(--set-paper);border:0;border-radius:0;font:560 13px/1.35 system-ui;text-align:left}
+#deviceDialog[open]{display:block}
+.deviceForm{box-sizing:border-box;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;height:100%;width:100%;margin:0;overflow:hidden}
+.deviceForm header,.deviceForm footer,.guideTop,.layoutSetting{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.deviceForm header{position:relative;padding:15px 20px 13px;color:white;background:linear-gradient(112deg,#1e354c,#14243a 66%);border-bottom:2px solid #c52e48}
+.deviceForm header:after{content:'';position:absolute;inset:0 45px 0 auto;width:63px;pointer-events:none;background:repeating-linear-gradient(115deg,transparent 0 9px,#60dcf114 9px 11px)}
+.deviceForm header small{display:flex;align-items:center;gap:6px;color:#bbd6e2;font:800 9px/1 Arial,sans-serif;letter-spacing:.13em}
+.deviceForm header small i{width:15px;height:6px;transform:skew(-23deg);background:linear-gradient(90deg,#c52e48 40%,transparent 40% 52%,#60dcf1 52%)}
+.deviceForm header small span{color:var(--set-cyan)}
+.deviceForm h2{margin:4px 0 0;color:#fff;font:850 22px/1.15 system-ui}
+.closeDevice{z-index:1;display:grid;place-items:center;width:32px;height:32px;padding:0;border:1px solid #ffffff53;border-radius:50%;background:#16243a;color:white;font:400 23px/1 Arial,sans-serif}
+.settingsPages,.segmented{display:flex;align-items:stretch;gap:3px}
+.settingsPages{padding:0 16px;background:#e1e9f0;border-bottom:1px solid var(--set-line)}
+.settingsPages button{position:relative;background:transparent;padding:9px 10px;color:var(--set-dim);font:740 12px system-ui}
+.settingsPages button[aria-pressed=true]{color:var(--set-ruby)}
+.settingsPages button[aria-pressed=true]:after{content:'';position:absolute;bottom:0;left:10px;right:10px;height:3px;background:#c52e48}
+.settingsBody{min-height:0;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;padding:14px 19px;scrollbar-color:#adbcc9 transparent}
+#hardwarePage{display:grid;grid-template-columns:minmax(178px,.85fr) minmax(0,1.15fr);align-content:start;gap:19px}
+.deviceSection{display:flex;align-items:center;gap:7px;margin:0 0 9px;padding:0;font:820 13px/1.2 system-ui;color:var(--set-ink)}
+.deviceSection span{font:800 10px/1.2 ui-monospace,monospace;color:var(--set-ruby);border-right:1px solid #abb9c4;padding-right:6px}
+.formOptions{border:0;border-top:1px solid var(--set-line);margin:11px 0 0;padding:6px 0 0;min-width:0}
+.formOptions legend{padding:0 7px 0 0;color:var(--set-ink);font:780 12px/1.3 system-ui}
+.formLevels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+.formLevels label{position:relative;display:flex;align-items:center;justify-content:center;gap:4px;min-height:32px;padding:3px 4px;color:var(--set-dim);background:#f9fbfd;border:1px solid var(--set-line);border-radius:6px;cursor:pointer}
+.formLevels input{position:absolute;inset:0;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.formLevels strong{font:750 11px/1.2 system-ui}
+.formLevels svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.3;stroke-linejoin:round;stroke-linecap:round}
+.formLevels label:has(input:checked){color:var(--set-ruby);border-color:var(--set-ruby);background:#fff4f6;box-shadow:inset 0 -2px #c52e48}
+.formLevels label:has(input:focus-visible){outline:2px solid #087293;outline-offset:2px}
+#deviceFormHint{margin:5px 0 0}
+.systemSettings{border-top:1px solid var(--set-line);margin:8px 0 0;padding:0}
+.systemSettings summary{padding:7px 0 4px;cursor:pointer;font:700 11px/1.3 system-ui;color:var(--set-dim)}
+.systemSettings summary:focus-visible{outline:2px solid #087293;outline-offset:2px}
+.systemSwitches{display:flex;gap:5px;margin-top:3px}
+.systemSwitches button{flex:1;min-height:30px;padding:3px 5px;border:1px solid var(--set-line);border-radius:5px;color:var(--set-dim);background:#fff;font:720 11px/1.25 system-ui}
+.systemSwitches button[aria-pressed=true]{color:#fff;background:#263e55;border-color:#263e55}
+.systemSettings p{margin-bottom:0}
+.shadowOptions{min-width:0;margin:0 0 12px;padding:0 0 9px;border:0;border-bottom:1px solid var(--set-line)}
+.shadowOptions legend{margin-bottom:7px}.shadowLevels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.shadowLevels label{position:relative;display:grid;grid-template-columns:1fr;place-items:center;min-height:48px;gap:1px;padding:4px 5px;background:#fff;border:1px solid var(--set-line);border-radius:7px;cursor:pointer;touch-action:manipulation}
+.shadowLevels input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.shadowLevels strong{color:var(--set-dim);font:780 11px/1.2 system-ui}
+.shadowLevels label:has(:checked){border-color:var(--set-ruby);box-shadow:inset 0 -2px #c52e48;background:#fff5f6}.shadowLevels label:has(:checked) strong{color:var(--set-ruby)}
+.shadowPlate{position:relative;display:block;width:40px;height:19px;background:linear-gradient(transparent 80%,#acbdcd 82% 86%,transparent 87%)}
+.shadowPlate:before{content:'';position:absolute;bottom:3px;left:13px;width:23px;height:5px;border-radius:50%;transform:rotate(12deg);background:#7c8998}
+.shadowPlate i{position:absolute;bottom:4px;left:9px;width:12px;height:12px;border-radius:50%;background:radial-gradient(ellipse at 34% 24%,#f9ffff,#91b2c4 39%,#39566f 76%,#24384e)}
+.shadowLevels label:first-child .shadowPlate:before{border-radius:2px}.shadowLevels label:last-child .shadowPlate:before{background:radial-gradient(ellipse at 40%,#506174 10%,#8e9dac 48%,#c4cdd326 70%)}
+.settingsNote,.guideLesson p,#unitHow,#cueHow{margin:5px 0 9px;color:var(--set-dim);font:560 11px/1.5 system-ui}
+.shadowOptions .settingsNote,.deviceTuning>.settingsNote:last-child{margin-bottom:0}
+.layoutSetting strong,.guideTop strong{font:730 12px system-ui}
+.segmented{border-radius:6px;padding:2px;background:#dde5ed}.segmented button{background:transparent;border-radius:4px;padding:5px 8px;color:var(--set-dim);font:680 11px system-ui}
+.segmented button[aria-pressed=true],.assistSwitch[aria-pressed=true]{color:white;background:#273e55}
+.assistSwitch{border-radius:5px;padding:5px 10px;color:var(--set-dim);background:#dde5ed;font:720 11px system-ui}
+.deviceForm footer{padding:8px 17px;border-top:1px solid var(--set-line);background:#e3ebf2}
+.deviceForm footer span{font:580 11px/1.4 system-ui;color:var(--set-dim)}
+.deviceForm footer button,.helpDevice{padding:7px 15px;border-radius:6px;background:var(--set-ruby,#a81f3f);color:white;font:750 12px/1.2 system-ui}
+.helpDevice{margin:4px 0;background:#dbe4ec;color:#263d52;font-size:11px}
+#controlsPage{display:grid;grid-template-columns:1.05fr 1fr;align-content:start;gap:6px 13px}
+.guideTop{grid-column:1/-1;margin:0 0 4px}.guideTop strong{color:var(--set-ruby)}
+#driveBindings{grid-column:1;grid-row:2/5;align-self:start;margin:0;display:grid;grid-template-columns:minmax(90px,.8fr) minmax(0,1.2fr)}
+#driveBindings dt,#driveBindings dd{margin:0;padding:5px;border-bottom:1px solid var(--set-line);font:620 11px/1.35 system-ui}
+#driveBindings dd{color:#2f506c;font-weight:720;background:#e2eaf087}
+.guideLesson,#unitHow,#cueHow{grid-column:2;margin:0}
+.guideLesson{align-self:start;padding:8px 9px;border-left:2px solid var(--set-cyan);background:#e0e9f0;border-radius:0 6px 6px 0}.guideLesson small{font-weight:800;color:#304a61}.guideLesson p{margin:4px 0}
+#driftSteps{display:flex;gap:4px 8px;flex-wrap:wrap;margin:4px 0;color:var(--set-ink);font:720 11px system-ui}
+#driftTutor{--fill:0;--fire:#adc3ca;display:flex;align-items:center;justify-content:space-between;width:100%;min-height:31px;margin:5px 0;padding:4px 8px;border-radius:5px;background:#203b52;color:#fff;touch-action:none;font:750 11px system-ui}
+#driftTutor[data-level="1"]{--fire:#77dfff}#driftTutor[data-level="2"]{--fire:#ffac50}#driftTutor[data-level="3"]{--fire:#df91ff}
+#driftTutor i{width:50%;height:5px;overflow:hidden;background:#61768a;border-radius:3px}#driftTutor b{display:block;width:100%;height:100%;background:var(--fire);transform:scaleX(var(--fill));transform-origin:left}
+#cueHow strong{color:var(--set-ink);margin-right:3px}.guideCup{grid-column:1/-1;margin:3px 0 0;padding:7px 9px;border:1px solid #c9d6e0;border-radius:6px;color:var(--set-dim);font:580 11px/1.5 system-ui}.guideCup strong{margin-right:5px;color:var(--set-ruby)}
+#tutorResult{font:650 10px/1.35 system-ui;color:#714453;min-height:15px}
+#deviceDialog button:focus-visible,.shadowLevels label:has(input:focus-visible){outline:2px solid #087293;outline-offset:2px}
+#deviceDialog header button:focus-visible{outline-color:var(--set-cyan)}
+
+/* Compact base layout also covers a rotated, narrow single LCD. */
+.deviceForm header{padding:5px 8px;border-bottom-width:1px}
+.deviceForm header small{font-size:7px;letter-spacing:.12em;gap:4px}
+.deviceForm h2{font-size:16px;line-height:1;margin:3px 0 0}.closeDevice{width:26px;height:25px;border-radius:5px;font:720 10px system-ui}
+.settingsPages{padding:0 4px;gap:0}.settingsPages button{flex:1;white-space:nowrap;padding:5px 2px;font:760 11px/1.05 system-ui}
+.settingsPages button[aria-pressed=true]:after{height:2px;left:12%;right:12%}
+.settingsBody{display:block;min-width:0;min-height:0;margin:0;padding:7px 8px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+#hardwarePage,#controlsPage{display:block}
+.deviceSection{margin:0 0 4px;font:780 12px/1.3 system-ui}.deviceSection span{font-size:9px}
+.formOptions{margin:0;padding:1px 0 0;border:0}.formOptions legend{font:650 10px/1.45 system-ui;color:var(--set-dim)}
+.formLevels label{min-height:26px;padding:2px 4px}.formLevels strong,.shadowLevels strong{font-size:12px}
+.shadowOptions{margin:8px 0 0;padding:0 0 5px}.shadowOptions legend{margin-bottom:3px}
+.shadowLevels label{grid-template-columns:auto 1fr;justify-items:center;gap:2px;min-height:29px;padding:3px}
+.shadowPlate{width:20px;height:17px}.shadowPlate i{left:3px;width:9px;height:9px}.shadowPlate:before{left:6px;width:13px}
+.settingsNote,.guideLesson p,#unitHow,#cueHow,.guideCup{margin:4px 0 5px;font:540 11px/1.4 system-ui}
+.systemSettings{margin:5px 0 0}.systemSettings summary{padding:5px 0;font-size:12px}
+.guideTop{margin:0 0 4px}.guideTop strong{font-size:11px}.guideLesson{margin:7px 0}.guideCup{padding:4px 5px}
+#driveBindings{grid-template-columns:minmax(70px,.75fr) minmax(0,1.25fr)}#driveBindings dt,#driveBindings dd{padding:3px;font-size:11px}
+#drivePage .driveAssist{padding:7px 0 1px;border-top:1px solid var(--set-line);margin-top:6px}
+.deviceForm footer{padding:2px 8px;border:0;min-height:0}.deviceForm footer span{font:600 8px/1.1 system-ui}
+.settingsMark{color:#596e81;letter-spacing:.1em;white-space:nowrap}
+.hardwareProfile{display:flex;align-items:center;gap:7px;margin:0 0 5px;color:#24394b}
+.hardwareProfile small{font:780 7px/1 Arial;letter-spacing:.12em;color:#567184}.hardwareProfile small i{color:#b52e4a;font-style:normal}
+.hardwareProfile h3{margin:0;font:820 12px/1.1 system-ui}.hardwareProfile p{margin:2px 0 0;font:620 9px/1.2 system-ui;color:#4b6071}
+#settingHardwareMark{display:grid;place-items:center;padding:1px 2px;width:32px;height:25px;border-radius:5px;background:#1d3145}#settingHardwareMark svg{width:100%;height:100%}
+.systemSettings{padding:4px 0 0}.systemSettings .deviceSection{margin:3px 0}
+#deviceDialog .scoreMix{display:flex;align-items:center;justify-content:space-between;gap:5px;margin:6px 0;font:650 11px system-ui;color:#294157}
+#deviceDialog .scoreMix input{flex:1;width:2em;min-width:0;accent-color:#b32d49}
+#deviceDialog #racePerf{margin:4px 0;color:#38536a;font:620 10px/1.35 system-ui}
+@container pitLCD (max-height:210px){.deviceForm footer{display:none}.deviceForm{grid-template-rows:auto auto minmax(0,1fr)}}
+@container pitLCD (max-width:269px){
+ .settingsPages button{font-size:13px}.settingsNote,.guideLesson p,#unitHow,#cueHow,.guideCup{font-size:13px;line-height:1.36}
+ .deviceSection,.hardwareProfile h3,.formLevels strong,.shadowLevels strong,.systemSwitches button{font-size:14px}
+ #driveBindings dt,#driveBindings dd{font-size:13px}.formLevels label,.shadowLevels label,.systemSwitches button{min-height:29px}
+}
+@container pitLCD (min-width:430px){
+ .deviceForm header{padding:7px 14px}.deviceForm h2{font-size:19px}.deviceForm header small{font-size:8px}.closeDevice{width:36px;height:29px;font-size:12px}
+ .settingsPages{padding:0 10px}.settingsPages button{flex:0 1 auto;padding:7px 13px;font-size:12px}
+ .settingsBody{padding:9px 14px}.settingsNote,.guideLesson p,#unitHow,#cueHow,.guideCup{font-size:12px}
+ #hardwarePage{display:grid;grid-template-columns:1fr 1fr;gap:16px}.shadowOptions{margin-top:0}
+ #controlsPage{display:grid;grid-template-columns:1.05fr 1fr}.deviceForm footer{padding:4px 14px}
+ .deviceFamily{grid-column:1;grid-row:1}.deviceTuning{grid-column:2;grid-row:1/3}.systemSettings{grid-column:1;grid-row:2;margin:0}
+ .hardwareProfile{margin:0 0 8px}.hardwareProfile h3{font-size:16px}#settingHardwareMark{width:47px;height:34px}
+}
+@container pitLCD (min-width:560px){
+ .deviceForm header{padding:10px 18px}.deviceForm h2{font-size:24px}.settingsPages button{font-size:14px;padding:8px 15px}
+ .settingsBody{padding:14px 18px}.deviceSection{font-size:15px}.settingsNote,.guideLesson p,#unitHow,#cueHow,.guideCup{font-size:13px}
+ .formLevels strong,.shadowLevels strong,.systemSwitches button,.segmented button,.assistSwitch{font-size:13px}.formLevels label,.shadowLevels label,.systemSwitches button{min-height:35px}
+ .hardwareProfile{gap:10px}.hardwareProfile h3{font-size:19px}.hardwareProfile p{font-size:11px}.hardwareProfile small{font-size:8px}
+ #settingHardwareMark{width:62px;height:45px}.settingsMark,.deviceForm footer span{font-size:10px}.deviceForm footer{padding:5px 18px}
+}
+@media(prefers-reduced-motion:reduce){#deviceDialog *{scroll-behavior:auto}}
+
+.modelTools[hidden],#deviceDialog[hidden],#deviceDialog [hidden]{display:none!important}

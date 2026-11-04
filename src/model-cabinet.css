@@ -1,0 +1,37 @@
+#studio #console[data-form]{
+ position:relative!important;inset:auto!important;transform:none!important;align-self:stretch;justify-self:stretch;
+ width:100%!important;height:100%!important;min-width:0;min-height:0;max-width:none;max-height:none;
+ margin:0!important;padding:0!important;display:block!important;aspect-ratio:auto!important;border:0;border-radius:0;
+ background:none!important;box-shadow:none!important;overflow:visible;touch-action:none;cursor:default;
+}
+#studio #console[data-form]::before,#studio #console[data-form]::after,
+#console[data-form]>:is(.lid,.base,.hinge,.wiiu-detail){display:none!important}
+#studio #console[data-form="model"]{cursor:grab}
+#console.orbiting{cursor:grabbing!important}
+#cabinetGlass,.cabinetSurface{position:absolute;inset:0;width:100%;height:100%}
+#cabinetGlass{isolation:isolate;pointer-events:none}
+.cabinetSurface{z-index:3;pointer-events:none}
+.cabinetLCD,.cabinetKey{position:absolute;left:0;top:0;transform-origin:0 0;pointer-events:auto}
+.cabinetLCD{z-index:2;cursor:auto;overflow:hidden}
+.cabinetKey{z-index:4;cursor:pointer;touch-action:none}
+.cabinetKey:has(:focus-visible){outline:2px solid #60dcf1;outline-offset:2px;border-radius:18%}
+#studio #console[data-form] #cabinetGlass .cabinetKey[data-held-away],
+#studio #console[data-form] #cabinetGlass .cabinetKey[data-held-away] *{opacity:0!important;pointer-events:none!important}
+#cabinetGlass [hidden]{display:none!important}
+#studio #console[data-form] .cabinetLCD>:is(#upper,#lower){
+ position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+ min-height:0!important;min-width:0!important;max-width:none!important;max-height:none!important;
+ margin:0!important;padding:0!important;aspect-ratio:auto!important;transform:none!important;border:0!important;
+ border-radius:0!important;box-shadow:none!important;visibility:visible!important;pointer-events:auto!important;
+}
+#studio #console[data-form] .cabinetLCD>#upper{display:block!important}
+#studio #console[data-form] .cabinetLCD>#lower{display:flex!important}
+#studio #console[data-form] .cabinetKey>:first-child{
+ position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;
+ padding:0!important;margin:0!important;display:block!important;transform:none!important;visibility:visible!important;pointer-events:auto!important;opacity:0!important;
+}
+#studio #console[data-form] .cabinetKey>#dpad{display:grid!important;grid-template:repeat(3,1fr)/repeat(3,1fr)}
+/* Each direction owns its extended touch area, even after the grid is projected. */
+#studio #console[data-form] .cabinetKey>#dpad>[data-dir]{position:relative!important;inset:auto!important;display:block!important;width:100%!important;height:100%!important;transform:none!important;padding:0!important}
+#cabinetGlass .dpUp{grid-area:1/2}#cabinetGlass .dpLeft{grid-area:2/1}#cabinetGlass .dpRight{grid-area:2/3}#cabinetGlass .dpDown{grid-area:3/2}
+@media(forced-colors:active){.cabinetKey:focus-within{opacity:.8;outline:2px solid Highlight}}

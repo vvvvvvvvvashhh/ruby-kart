@@ -1,0 +1,86 @@
+/* Cup lobby only. The live race canvas remains the central image and the
+   ordinary course selector keeps its own layout in versus and time trials. */
+#cupLobbyPoster[hidden],#cupLobbyDesk[hidden],#cupLobbyPoster [hidden],#cupLobbyDesk [hidden]{display:none}
+#console[data-cup-lobby] :is(#cupBeacon,#titleView,.gpDualHead){display:none}
+#console[data-cup-lobby] #oneMenu>:is(.singleMast,.gridPlate){display:none}
+#cupLobbyPoster{
+ --cup-ink:#0d1c31;--cup-ice:#7fe2ec;--cup-gold:#ffda88;--cup-gutter:3.5%;
+ position:absolute;inset:0;z-index:4;isolation:isolate;pointer-events:none;overflow:hidden;color:#f6fbff;
+ font-family:system-ui,sans-serif;font-variant-numeric:tabular-nums;
+ background:linear-gradient(165deg,#102235b5,transparent 39%),linear-gradient(0deg,#0b182af5,#11243be0 13%,#172a3b8c 27%,#15283b26 40%,transparent 51%);
+}
+.lobbyMast{position:absolute;top:6%;left:var(--cup-gutter);display:flex;align-items:center;gap:1.45cqw}
+.lobbyCrest{display:grid;place-items:center;width:7.4cqw;height:7.4cqw;border:1px solid #ffe7a6a3;border-radius:50%;background:radial-gradient(circle at 35% 12%,#526079e0,#24344ae0 59%,#102138ed);box-shadow:inset 0 0 0 .46cqw #23354bc2,0 .3cqw .9cqw #11203344}
+.lobbyTrophy{width:85%;height:85%;filter:drop-shadow(0 1px 1px #14213682)}
+.lobbyMast small,.lobbyCount small,.lobbyBrow span,.lobbyDeskCopy small{font:850 clamp(6px,1.26cqw,10px)/1.12 Arial,sans-serif;letter-spacing:.145em}
+.lobbyMast small{color:#fff1c9;text-shadow:0 1px 3px #0d1d2d}.lobbyMast small i{font-style:normal;color:#83e1e9}
+.lobbyMast h2{margin:.38cqw 0 0;color:#fff8e9;font:900 italic clamp(14px,4.4cqw,39px)/1.05 system-ui;letter-spacing:.016em;text-shadow:0 1px 2px #14223b,0 .2cqw .75cqw #0d203391}
+.lobbyCount{position:absolute;top:6%;right:var(--cup-gutter);display:grid;justify-items:end;gap:.22cqw;text-shadow:0 1px 2px #0a1e34,0 0 5px #0d2139}
+.lobbyCount small{color:#f3f8ff;font-family:system-ui;letter-spacing:.10em}.lobbyCount>span{display:flex;align-items:baseline;gap:.55cqw}
+.lobbyCount b{font:950 italic clamp(13px,3.8cqw,34px)/.98 Arial,sans-serif;color:var(--cup-gold)}
+.lobbyCount i{font:820 italic clamp(7px,1.65cqw,14px)/1 Arial,sans-serif;color:#e6eff7}
+.lobbyFoot{position:absolute;bottom:3.5%;left:var(--cup-gutter);right:var(--cup-gutter);display:grid;gap:1.1cqw}
+.lobbyCopy{max-width:79%;justify-self:start;text-shadow:0 1px 2px #0b192ce0,0 1px 5px #10213566}
+.lobbyBrow{display:flex;align-items:center;gap:.8cqw;margin:0 0 .55cqw}
+.lobbyBrow i{width:2cqw;height:.58cqw;min-height:2px;transform:skewX(-25deg);background:linear-gradient(90deg,#ffcc76 66%,transparent 66% 77%,#ffd877 77%)}
+.lobbyBrow strong{color:#ffdc95;font:800 clamp(8px,1.75cqw,15px)/1 system-ui}.lobbyBrow span{color:#d7e7ec;letter-spacing:.095em;font-size:clamp(6px,1.15cqw,10px)}
+.lobbyCopy h3{margin:0;font:920 italic clamp(15px,4.7cqw,40px)/1.05 system-ui;color:#fffaf0;letter-spacing:.01em}
+.lobbySub{margin:.65cqw 0 0;color:#f3f6f3;font:690 clamp(8px,1.7cqw,15px)/1.25 system-ui}
+#cupLobbyPoster[data-phase=champion] .lobbyBrow strong{color:#ffdf8c}
+#cupLobbyPoster[data-phase=champion] .lobbyCopy h3{color:#ffdf91}
+.lobbyStrip{display:flex;align-items:center;gap:2.5cqw}
+.lobbyRail{position:relative;padding:0;margin:0;display:flex;align-items:center;min-width:0;width:47%;gap:0;list-style:none;isolation:isolate}
+.lobbyRail:before{content:'';position:absolute;z-index:-1;left:0;right:0;bottom:.20cqw;height:1px;background:#b1c7d178}
+.lobbyRail li{position:relative;flex:1;min-width:0;color:#e1ecf1}
+.lobbyRail li:after{content:'';position:absolute;bottom:.08cqw;left:47%;width:1px;height:.42cqw;background:#c0d3ded1;pointer-events:none}
+.lobbyRail li[data-phase=done]{color:#b4f0e9}
+.lobbyRail li[data-phase=done]:after{width:.5cqw;background:#70dad2}
+.lobbyRail li[data-phase=current]{color:#ffdd8b}
+.lobbyRail li[data-phase=current]:after{width:.74cqw;height:.74cqw;background:#ffd06d;transform:rotate(45deg);box-shadow:0 0 .38cqw #e9b45385}
+.lobbyRail li :is(button,span){display:grid;place-items:center;width:100%;min-height:max(16px,3.5cqw);padding:.16cqw .15cqw .7cqw;color:inherit;background:transparent;text-shadow:0 1px 2px #0f1826c9;font:860 clamp(7px,1.48cqw,12px)/1.3 Arial,sans-serif;letter-spacing:.04em}
+.lobbyRail button,.lobbyActions button,.lobbyDeskActions button{pointer-events:auto;cursor:pointer;touch-action:manipulation}
+.lobbyRail button:hover,.lobbyActions button:hover,.lobbyDeskActions button:hover{filter:brightness(1.14)}
+.lobbyRail button:focus-visible,.lobbyActions button:focus-visible,.lobbyDeskActions button:focus-visible{outline:2px solid #8dedf5;outline-offset:-2px}
+#upper[data-single=true] .lobbyRail li>span,#upper[data-single=false] .lobbyRail li>button{display:none}
+.lobbyActions,.lobbyDeskActions{display:flex;align-items:center;gap:.65cqw}
+.lobbyActions{margin-left:auto}
+.lobbyActions button,.lobbyDeskActions button{display:block;border:1px solid #9db3c285;border-radius:3px;background:#20354ce6;color:#f6faff;white-space:nowrap;font:760 clamp(8px,1.65cqw,13px)/1.2 system-ui}
+.lobbyActions button{padding:.52cqw 1.35cqw}
+#console[data-cup-lobby] #oneSchedule,#console[data-cup-lobby] #dualSchedule{color:#222d38;border-color:#e4be73;background:linear-gradient(118deg,#ffecb4,#f9cc78);box-shadow:none}
+#console[data-cup-lobby] #oneSchedule{padding:.52cqw 1.35cqw}
+#upper[data-single=true] #cupLobbyPoster .lobbyFoot{bottom:14.6%}
+#upper[data-single=false] #cupLobbyPoster .lobbyFoot{bottom:4.8%;gap:1.1cqw}
+#upper[data-single=false] .lobbyActions{display:none}
+#upper[data-single=false] .lobbyRail{width:64%}
+#upper[data-single=false] .lobbyCrest{width:7cqw;height:7cqw}
+#upper[data-single=false] .lobbyBrow span{display:none}
+#cupLobbyDesk{
+ height:var(--chooser);min-height:0;flex:none;display:flex;align-items:center;justify-content:space-between;gap:4px;padding:2px 4px;
+ color:#fff9e6;border-top:1px solid #b58c50;border-bottom:1px solid #60788d;background:linear-gradient(112deg,#20364c,#15263b);
+}
+.lobbyDeskCopy{flex:1;min-width:0;display:grid;gap:1px}.lobbyDeskCopy small{font-size:clamp(6px,1.85cqw,9px);color:#94dce1;letter-spacing:.12em}
+.lobbyDeskCopy strong{font:820 clamp(9px,3.15cqw,14px)/1.12 system-ui;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.lobbyDeskActions{gap:3px}
+.lobbyDeskActions button{padding:3px 5px;font-size:clamp(8px,2.8cqw,12px)}
+
+#console[data-cup-lobby] .gridActions{grid-template-columns:1fr .78fr 1fr 1.55fr}
+#console[data-cup-lobby] #oneStart{letter-spacing:.01em}
+#console[data-cup-lobby] #gpItinerary li[data-lobby-mark]{outline:1px solid #b46437;outline-offset:-2px;background:#fff2cf}
+@media(max-aspect-ratio:4/5) and (min-height:440px){
+ #upper[data-single=true] .lobbyMast{top:5%;gap:2cqw}
+ #upper[data-single=true] .lobbyCrest{width:11cqw;height:11cqw}
+ #upper[data-single=true] .lobbyMast h2{font-size:clamp(13px,6cqw,23px)}
+ #upper[data-single=true] .lobbyMast small,#upper[data-single=true] .lobbyCount small{font-size:clamp(6px,2cqw,10px)}
+ #upper[data-single=true] .lobbyCount b{font-size:clamp(13px,5cqw,22px)}
+ #upper[data-single=true] .lobbyCopy h3{font-size:clamp(16px,6.4cqw,29px)}
+ #upper[data-single=true] #cupLobbyPoster .lobbyFoot{gap:1.9cqw;bottom:calc(8% + 2cqw)}
+ #upper[data-single=true] .lobbyActions button{min-height:24px;padding-inline:1.3cqw;font-size:clamp(9px,2.8cqw,13px)}
+ #upper[data-single=true] .lobbyStrip{align-items:end;gap:2cqw}
+ #upper[data-single=true] .lobbyRail{width:54%}
+ #upper[data-single=true] .lobbyRail li :is(button,span){min-height:21px}
+ #upper[data-single=true] .lobbyBrow span{display:none}
+}
+@media(prefers-reduced-motion:no-preference){
+ #cupLobbyPoster:not([hidden]) .lobbyCopy{animation:lobbyCopyIn .25s ease-out both}
+ @keyframes lobbyCopyIn{from{opacity:0;transform:translateY(.55cqw)}to{opacity:1;transform:translateY(0)}}
+}

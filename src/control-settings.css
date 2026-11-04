@@ -1,0 +1,31 @@
+.driveSetup{min-width:0;color:var(--set-ink,#172c40);font:560 12px/1.35 system-ui}
+.driveSetup button,.driveSetup select{font-family:inherit;touch-action:manipulation}
+.driveAutoLine,.bindingHeader,.bindingFoot{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.driveAutoLine{border-bottom:1px solid var(--set-line,#cbd7df);padding:0 0 6px;margin:0 0 6px}
+.driveAutoLine strong,.bindingHeader h3{margin:0;font:780 12px/1.2 system-ui}
+.driveAutoHint{margin:2px 0 0;font:560 10px/1.3 system-ui;color:var(--set-dim,#486078)}
+.driveAutoLine button{display:inline-flex;align-items:center;justify-content:center;gap:4px;flex:none;padding:4px 6px;min-height:27px;border:1px solid #bccbd8;border-radius:6px;background:#f8fbfd;color:#3c546a;font-size:11px;font-weight:750}
+.driveAutoLine i{position:relative;display:block;width:21px;height:12px;box-sizing:border-box;background:#889aa6;border-radius:8px}
+.driveAutoLine i:after{position:absolute;content:'';top:2px;left:2px;width:8px;height:8px;border-radius:50%;background:white;box-shadow:0 1px 2px #263b515c}
+.driveAutoLine button[aria-checked=true]{color:#96304b;border-color:#d5a1af;background:#fff5f6}
+.driveAutoLine button[aria-checked=true] i{background:var(--set-ruby,#aa2042)}.driveAutoLine button[aria-checked=true] i:after{left:11px}
+.bindingHeader{margin-bottom:5px}
+.bindingTabs{display:flex;padding:2px;border:1px solid #c8d5df;border-radius:6px;background:#dce6ee}
+.bindingTabs button{background:transparent;color:#4a5e72;border:0;border-radius:4px;font-size:11px;font-weight:720;min-height:22px;padding:2px 7px}
+.bindingTabs button[aria-pressed=true]{color:#fff;background:#263e55;box-shadow:0 1px 2px #172a3e35}
+.bindingList{display:grid;grid-template-columns:minmax(0,1fr);gap:3px}
+.bindingRow{display:grid;grid-template-columns:minmax(0,1fr) minmax(60px,auto);align-items:center;gap:5px;padding:2px 4px 2px 5px;border:1px solid #cbd6e0;border-radius:5px;background:#fbfdff;min-width:0}
+.bindingName{display:flex;align-items:center;gap:5px;color:var(--set-ink,#172c40);font-weight:670;line-height:1.15}
+.bindingName svg{width:14px;height:14px;flex:none;stroke:#4f7388;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.7}
+.bindingRecord,.bindingRow select,.bindingFixed{box-sizing:border-box;min-width:0;max-width:100%;border:1px solid #b8c9d6;border-radius:4px;background:linear-gradient(#f8fbfd,#e5edf3);color:#243e53;font:740 11px/1.2 system-ui;padding:3px 4px;min-height:24px;text-align:center}
+.bindingRecord{width:100%}
+.bindingRow select{background-color:#edf3f7;text-align:start}
+.bindingRecord[aria-pressed=true]{border-color:var(--set-ruby,#ae2443);color:#85203c;background:#fff0f3;box-shadow:inset 0 -2px 0 #bd3352}
+.bindingFixed{border-style:dashed;display:inline-grid;place-items:center;color:#5a6d7d;background:#edf2f6;font-size:10px}
+.driveSetup[data-source=keys] .bindingFixed,.driveSetup [hidden]{display:none!important}
+.bindingFoot{align-items:flex-start;margin-top:6px}
+.bindingStatus{color:var(--set-dim,#486078);font-size:10px;line-height:1.35;overflow-wrap:anywhere;min-width:0}
+.driveReset{flex:none;min-height:23px;border:1px solid #b8cbd8;border-radius:4px;color:#385169;background:#e3ecf2;font-size:10px;font-weight:700;padding:3px 5px}
+@container pitLCD (min-width:350px){.bindingList{grid-template-columns:repeat(2,minmax(0,1fr))}.bindingRow{grid-template-columns:minmax(0,1fr) minmax(54px,auto)}}
+@container pitLCD (min-width:445px){.driveAutoHint,.bindingStatus{font-size:11px}.bindingRow{padding:3px 5px}.bindingRecord,.bindingRow select,.bindingFixed{min-height:28px}.bindingName{font-size:13px}}
+.bindingFeedback{grid-column:1/-1;padding:1px 0 3px;color:#87324b;font:650 10px/1.3 system-ui;overflow-wrap:anywhere}

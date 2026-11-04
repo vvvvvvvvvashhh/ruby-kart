@@ -1,0 +1,21 @@
+<section id="oneMenu" hidden aria-label="单屏赛前设置">
+ <header class="singleMast"><b class="rubyFlag" aria-hidden="true"></b><strong>RUBY <i>TOUR</i></strong><span>赛事中心<small class="menuCredit">N1n3VASthR33H</small></span></header>
+ <div class="gridPlate"><div class="trackTicket"><small id="oneCup"></small><h2 id="oneName"></h2><span id="oneEnglish"></span></div>
+  <div class="trackSelector"><svg viewBox="0 0 106 72" aria-hidden="true"><path id="menuRoute"/></svg><button id="oneSchedule" hidden type="button" aria-controls="cupSchedule">七站赛程 <b>›</b></button><div class="trackPaging"><button id="onePrev" aria-label="上一条赛道">‹</button><label class="tourJump"><span id="oneTour"></span><select id="oneCoursePicker" aria-label="赛道列表"></select></label><button id="oneNext" aria-label="下一条赛道">›</button></div></div>
+ </div>
+ <nav class="gridActions" aria-label="赛前选项"><span class="choiceAnchor"><button id="oneMode" aria-label="选择比赛模式"></button></span><span class="choiceAnchor"><button id="oneCC" aria-label="选择排量"></button></span><button id="oneGarage">改装车库</button><button type="button" id="oneSettings" data-open-settings aria-haspopup="dialog" aria-controls="deviceDialog">设置</button><button id="oneStart"><span id="singleStartLabel">发车</span> <b>›</b></button></nav>
+</section>
+<section id="oneShop" hidden aria-label="单屏改装车库">
+ <div class="modelTag"><small><b class="rubyFlag" aria-hidden="true"></b> PADDOCK <i>/</i> 01</small><strong id="shopDriver"></strong></div>
+ <div class="modelLegend"><span class="orbitCaption">拖动旋转</span><div class="cameraPresets" role="group" aria-label="模型视角"><button type="button" data-angle=".66">前侧</button><button type="button" data-angle="1.57">侧面</button><button type="button" data-angle="3.62">车尾</button></div></div>
+ <div id="oneInspector">
+  <header class="shopHead"><small>RUBY <i>/</i> WORKS</small><strong>改装车库</strong><span id="shopPlate"></span></header>
+  <div id="shopSlot"></div>
+ </div>
+</section>
+<aside id="oneRace" hidden aria-label="单屏比赛仪表">
+ <svg id="oneMap" viewBox="0 0 106 72" role="img" aria-label="实时赛道与车手位置"><path class="oneOutline"/><path class="oneRoute"/><path class="oneFinish"/><g class="oneDots"></g></svg>
+ <div class="meterStack"><div class="meterTicks"><i></i></div><div class="oneSpeed"><strong></strong><small>km/h</small></div><span class="oneSection"></span></div>
+</aside>
+
+<div id="raceChooser" role="listbox" aria-label="赛前选项" hidden></div>

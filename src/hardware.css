@@ -1,0 +1,172 @@
+/* Pre-lit castings. The sparse moving highlight sits above the baked surface;
+   neither the shell nor its reflections are drawn by the race renderer. */
+#studio{
+ --top-gap:max(5px,env(safe-area-inset-top));--bottom-gap:max(6px,env(safe-area-inset-bottom));
+ height:100svh;min-height:0;grid-template:minmax(0,1fr) / minmax(0,1fr);
+ padding:var(--top-gap) max(5px,env(safe-area-inset-right)) var(--bottom-gap) max(5px,env(safe-area-inset-left));
+ background:radial-gradient(ellipse at 47% 27%,#39343f 0%,#29252e 34%,#1a181f 69%,#131217 100%);
+}
+#studio:before{
+ background:repeating-linear-gradient(103deg,#fff2df04 0 1px,transparent 1px 3px);
+ opacity:.35;mask-image:linear-gradient(150deg,#000,transparent 83%);
+}
+/* Shared dimensions in both orientations. One uniform scale fits the open case;
+   both faces are 1000 × 466 and the pin between them is 38 units high. */
+#console,#console.playing{
+ --panel:52%;--strip:4.6cqw;
+ width:min(100%,calc((100svh - var(--top-gap) - var(--bottom-gap)) * 100 / 97));
+ height:auto;aspect-ratio:100 / 97;min-width:0;min-height:0;
+ grid-template-rows:minmax(0,466fr) minmax(0,38fr) minmax(0,466fr);
+ border-radius:3cqw;box-shadow:none;
+}
+#console::before{content:"";pointer-events:none;position:absolute;inset:5% 2% 1%;border-radius:6%;
+ z-index:-1;box-shadow:0 1.8cqw 3.3cqw -.9cqw #040308a8,1.2cqw 2.1cqw 4cqw -.7cqw #0a050f86}
+#console>.lid,#console>.base,#console>.hinge{
+ border:none;box-shadow:none;background-color:transparent;background-repeat:no-repeat;background-size:100% 100%;
+}
+#console>.lid{display:grid;grid-template:minmax(0,1fr) / minmax(0,1fr);min-height:0;margin:0;padding:0;border-radius:3.7cqw 3.7cqw 1.3cqw 1.3cqw;background-image:url("case-lid.webp")}
+#console>.hinge{z-index:2;margin:0 .6%;height:auto;min-height:0;border-radius:0;background-image:none}
+.hinge:before,.hinge:after,.enamel:before,.enamel:after{display:none}
+#console>.base{
+ height:auto;margin:0;align-content:center;grid-template-rows:max-content var(--strip);
+ background-image:url("case-deck.webp");border-radius:3cqw;padding:0 .6cqw;
+
+}
+#console .coat{z-index:-1;border-radius:0;mix-blend-mode:screen;opacity:.65}
+#console .lid .coat{inset:1.8% 1% 3%;border-radius:2.5cqw 2.5cqw .65cqw .65cqw;opacity:.44}
+#console .base .coat{inset:1% .65% 1.4%;border-radius:2.6cqw}
+#console .darkframe{
+ background:transparent;border-radius:2cqw 2cqw .55cqw .55cqw;box-shadow:none;
+ min-height:0;display:grid;place-items:center;padding:2.35cqw 0 0;
+}
+.darkframe:before,.darkframe:after{
+ top:2.4%;width:4.9%;height:clamp(3px,.85cqw,7px);border-radius:1cqw;
+ background:linear-gradient(#27242c,#3a3640 35%,#211e26 80%);
+ box-shadow:inset 0 1px #66616d80,0 1px 0 #09080d,0 2px 2px #08070ba6;
+}
+.darkframe:before{left:3.7%}.darkframe:after{right:3.7%}
+#console .camera{
+ top:1.13cqw;width:clamp(7px,2.04cqw,14px);height:clamp(7px,2.04cqw,14px);left:50%;transform:translateX(-50%);
+ background:radial-gradient(circle at 40% 29%,#d8e4f7 0 4%,#5d96b9 7%,transparent 13%),
+ radial-gradient(circle at 55% 57%,#030817 0 22%,#182639 31%,#11223b 42%,#05070e 46% 61%,#55505b 65%,#29242c 73%,#08060c 84%);
+ box-shadow:0 1px .6px #6857629e,0 -1px 1px #09070d;
+}
+#console .camdot{top:1.92cqw;left:calc(50% + 3cqw);width:clamp(2px,.48cqw,4px);height:clamp(2px,.48cqw,4px);background:#100d15;box-shadow:0 1px #73636e7d}
+#console .stereo{--port:#030308 0 .92px,#18141c 1.25px,#625c687d 1.60px,transparent 1.92px;top:56%;opacity:.94}
+#console .speakerL{left:7%}#console .speakerR{left:93%}
+.depthMark{position:absolute;right:2.45%;bottom:14%;font:700 clamp(5px,1.05cqw,9px)/1 Arial;color:#bdb7bf;letter-spacing:.08em;text-shadow:0 -1px #100d16}
+.depthMark:after{content:"";display:block;width:72%;height:2px;margin:2px auto;background:#85aa84;border-radius:1px;box-shadow:0 0 2px #6be69180}
+#console #upper{
+ width:70cqw;height:auto;aspect-ratio:5 / 3;align-self:center;container-type:inline-size;
+ box-shadow:0 0 0 1px #0a080e,0 0 0 2px #020307,0 1px 0 3px #71657091,0 -1px 0 3px #141119,inset 0 2px 2px #07060b99;
+ border-radius:clamp(2px,.5cqw,5px);
+}
+#console .innerbase{display:block}
+#console .lcdRim{
+ display:block;width:100%;
+ border:0;border-radius:clamp(4px,1.05cqw,8px);
+ padding:.85cqw;
+ background:linear-gradient(135deg,#3b0617 0,#690e29 20%,#891432 45%,#b12b47 77%,#ef697782 99%);
+ box-shadow:0 1px 0 #ff80917a,0 -1px 1px #51091ccc,inset 1.2px 1.8px 2px #350516b3,inset -1px -1px 1px #ff829371;
+}
+#lower{width:100%;height:auto;aspect-ratio:4 / 3;border:1px solid #140f18;box-shadow:0 0 0 1px #32111dc2,0 1px .6px #e7738366}
+#console[data-skin="3ds"] .sysline>#mapKey{display:none}
+#console .sysline{
+ align-self:center;height:86%;margin:1px 1.5% 0;max-height:none;border-radius:0 0 .72cqw .72cqw;
+ background:linear-gradient(100deg,#8a1632 0,#a61c3e 44%,#7a0f2a);
+ box-shadow:0 1px 0 #ec66735e,0 -1px 1px #4b091a7a,inset 0 1px #d6506766;
+}
+#console .sysline .systemKey{
+ position:relative;color:#f3c7cd;border:0;letter-spacing:.14em;text-shadow:0 -1px #6d1b31;
+ background:transparent;box-shadow:none;padding:0 .25em;
+}
+#console .sysline .systemKey+.systemKey:before{content:"";position:absolute;top:20%;bottom:20%;left:0;width:1px;background:#5a10235e;box-shadow:1px 0 #ea677442}
+#console .systemKey:active{background:#690e2588;transform:translateY(1px)}
+#console .systemKey svg{width:1.12em;height:1.12em;vertical-align:-.17em}
+#console #tiltBtn,#console #soundToggle{
+ bottom:2.6%;height:var(--strip);min-height:13px;background:transparent;box-shadow:none;border:0;
+ color:#ffd5d7;text-shadow:0 -1px #560d22;font-weight:650;line-height:1.08;letter-spacing:.035em;
+}
+#console #tiltBtn{left:5.3%;width:13.5%}#console #soundToggle{right:5.3%;width:13.5%}
+#console .leds{bottom:2.4%;right:7%;display:flex;gap:3px;height:3px}
+#console .leds i{display:block;height:100%;width:clamp(5px,1.2cqw,9px);border-radius:2px;background:#8adfff;box-shadow:0 0 3px #72caff99,0 -1px 0 #2b091a}
+#console .leds i+i{width:clamp(3px,.6cqw,5px);background:#eaa15a;box-shadow:0 0 2px #f6a65183,0 -1px 0 #3c071c}
+.deckPlate{display:none}
+/* Compact UI follows the display width, independently of the viewport.
+   A narrower window scales the device as a whole, without stretching either LCD. */
+#console #lower{
+ --bar:clamp(12px,8.2cqw,26px);--chooser:clamp(19px,12.4cqw,38px);--action:clamp(19px,12.1cqw,38px);
+}
+#menuPane .setup{
+ margin-left:33%;display:grid;grid-template:repeat(2,minmax(0,1fr)) / minmax(0,1fr);
+ gap:2px;padding:2px 3px;
+}
+#menuPane .controlRow{display:grid;grid-template-columns:1fr;align-content:center;gap:1px;min-height:0}
+#menuPane .ctlLabel{position:static;width:auto;height:auto;clip-path:none;margin:0;overflow:visible}
+#menuPane .seg{height:auto;min-height:0}
+#menuPane .seg button{height:auto;min-height:0;line-height:1.15;padding:clamp(2px,1.3cqw,6px) 0;white-space:nowrap}
+#menuPane .setupRecord{display:none}
+#console.hasPB #menuPane .setupRecord{
+ position:absolute;display:flex;flex-wrap:wrap;gap:1px 3px;z-index:2;
+ bottom:calc(var(--action) + 2px);left:2%;width:29%;color:#62414e;
+ background:#fff8e9d9;font:750 clamp(7px,3.4cqw,11px)/1.15 Arial;
+}
+#mapBox:not(.live){width:33%}
+#mapBox.live{top:var(--bar);bottom:0;width:42%}
+#livePane .liveRight{
+ display:flex;flex-direction:column;justify-content:center;height:100%;margin:0 0 0 42%;gap:1.4cqw;
+}
+#livePane .raceTools{display:flex}
+#console .sysline button{min-height:0}
+@container touch (max-width:205px){
+ #lower .ctaRow button{font-size:clamp(8px,5.2cqw,10px)}
+ #lower .ctlLabel{font-size:clamp(7px,4.4cqw,9px)}
+ #lower .seg button{font-size:clamp(8px,5.1cqw,10px)}
+ #lower .courseSelect{gap:2px;padding:0 2px}
+ #lower .courseSelect small{font-size:clamp(6px,3.5cqw,8px)}
+ #lower .courseSelect strong{font-size:clamp(9px,5.6cqw,11px)}
+ #lower .courseSelect>b{font-size:clamp(6px,3.4cqw,8px)}
+ #lower .liveRight{padding:2px 3px}
+}
+@container touch (max-width:170px){
+ #menuPane .ctlLabel{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+ #lower .garageStrip{height:30px;grid-template-columns:repeat(3,minmax(0,1fr))}
+ #lower .garageStrip button{font-size:8px}
+ #lower .courseSelect>b{display:none}
+}
+/* The rear saddle anchors the cylinder to both housings. */
+#console>.hinge{background-image:none}
+#console>.hinge:before,#console>.hinge:after{content:"";display:block;position:absolute;pointer-events:none;width:auto;left:0;right:0}
+#console>.hinge:before{
+ top:-9%;bottom:-14%;left:.55%;right:.55%;border-radius:.95cqw;
+ background:linear-gradient(90deg,#8f1735 0,#550a21 4%,#290612 12%,#3d071b 78%,#4e0b21 91%,#8c1c36 98%,#400c1e 100%);
+}
+#console>.hinge:after{inset:0;background:url("case-hinge.webp") center / 100% 100% no-repeat}
+/* Lower LCD chrome: a single light source picks out the selected row and the
+   launch control. The page geometry stays fixed while the race is running. */
+#lower .bar{
+ background:linear-gradient(105deg,#221c2a 0%,#3f2235 62%,#74263e);
+ border-bottom:1px solid #b34c62;box-shadow:inset 0 1px #e5bdc62e;
+}
+#lower .coursePicker{
+ background:linear-gradient(#f9f5ed,#ded5cf);box-shadow:inset 0 1px #fffaf1;
+}
+#lower .courseSelect{
+ background:linear-gradient(113deg,#3b2937 0%,#6b3042 62%,#963b50 100%);
+ box-shadow:inset 0 1px #bc727c7d, inset 0 -1px #4e2333ad;
+}
+#lower .seg button.on{
+ background:linear-gradient(160deg,#5f5163,#3d3345 78%);box-shadow:inset 0 1px #807081;
+}
+#lower .ctaRow button.gold{
+ background:linear-gradient(#fff0a4 0%,#ffe38a 12%,#ffcf5d 70%,#e8a43d 100%);
+ box-shadow:inset 0 1px #fff4c4,inset 0 -1px #bd7b2a;
+}
+#lower .ctaRow button:active{box-shadow:inset 0 2px 3px #54405560}
+#fpsMeter{letter-spacing:0}
+/* The handheld may sit beside a much larger TV. Size the legends to the
+   physical strip itself rather than to the height of the browser window. */
+#console[data-skin="3ds"] .sysline .systemKey{
+ display:flex;align-items:center;justify-content:center;gap:.18em;
+ font-size:clamp(6px,1.95cqw,12px);letter-spacing:.10em;line-height:1;white-space:nowrap;
+}

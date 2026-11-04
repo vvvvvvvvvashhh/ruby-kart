@@ -1,0 +1,36 @@
+/* The title is painted before the game stylesheet, data and renderer arrive. */
+html,body{margin:0;background:#140e19}
+html[data-launch] #studio{opacity:0;pointer-events:none}
+html[data-launch="reveal"] #studio{opacity:1}
+#titleCard{position:fixed;inset:0;z-index:1000;overflow:hidden;isolation:isolate;display:grid;place-items:center;
+ color:#fff5df;background:radial-gradient(ellipse at 15% 100%,#711833 0,transparent 57%),linear-gradient(138deg,#35202d,#1d1524 48%,#100e18);
+ font-family:system-ui,sans-serif}
+#titleCard[hidden]{display:none}
+#titleCard::before,#titleCard::after{content:"";position:absolute;inset:-6%;pointer-events:none;z-index:-1}
+#titleCard::before{background:repeating-linear-gradient(116deg,transparent 0 5.3%,#ff9cb91a 5.35% 5.48%,transparent 5.53% 7.4%,#ce436325 7.45% 8%,transparent 8.05% 19%);
+ mask-image:linear-gradient(118deg,#0009,transparent 43%,#000);transform:translateX(0)}
+#titleCard::after{inset:auto -3% 0;height:16%;opacity:.17;background:repeating-conic-gradient(#efb2bf 0% 25%,transparent 0% 50%) 0 0 / clamp(22px,4vmin,52px) clamp(22px,4vmin,52px);
+ transform:skewX(-16deg);mask-image:linear-gradient(0deg,#0009,transparent 92%)}
+.titleSignature{display:grid;justify-items:center;width:min(83vw,110vmin);gap:clamp(12px,2.6vmin,54px)}
+.titleSeries{display:flex;align-items:center;gap:.8em;color:#f4ce84;font:900 italic clamp(12px,2.1vmin,46px)/1 system-ui,sans-serif;letter-spacing:.24em}
+.titleSeries i{width:1.8em;height:.82em;transform:skewX(-16deg);background:conic-gradient(#ffe4a0 25%,transparent 0 50%,#ffe4a0 0 75%,transparent 0) 0 0/.85em .85em}
+#entryLogo{width:100%;margin:0;line-height:0}#entryLogo svg,#titleCard .signatureInk{display:block;width:100%;height:auto}
+.authorCredit{width:43%;position:relative}
+.signatureDefs{display:block;position:absolute;width:0;height:0;pointer-events:none}
+.signatureText{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+#titleCard .sigSweep{display:none}
+#launchLine{width:17%;height:2px;background:linear-gradient(90deg,transparent,#d25a72 20%,#ffdb95 74%,transparent);transform:skewX(-20deg)}
+#launchError{position:absolute;bottom:6%;text-align:center;font-size:14px;color:#ffeadb}
+html[data-launch="reveal"] #titleCard{opacity:0;transition:opacity .34s ease-in}
+@media(prefers-reduced-motion:no-preference){
+ #titleCard::before{animation:launchLanes 1.35s cubic-bezier(.16,.7,.3,1) both}
+ .titleSeries,#entryLogo,.authorCredit{animation:launchMark .62s cubic-bezier(.15,.73,.22,1) both}
+ #entryLogo{animation-delay:.07s}.authorCredit{animation-delay:.19s}
+ #titleCard .sigSweep{display:block;animation:signatureGlint 1s .42s both}
+ #launchLine{animation:launchLine .8s .15s both}
+ @keyframes launchLanes{from{transform:translateX(-6%)}to{transform:translateX(0)}}
+ @keyframes launchMark{from{transform:translateY(.45em) scale(.98);opacity:.28}to{transform:none;opacity:1}}
+ @keyframes launchLine{from{transform:scaleX(.08) skewX(-20deg)}to{transform:scaleX(1) skewX(-20deg)}}
+ @keyframes signatureGlint{from{transform:translateX(0) skewX(-17deg)}to{transform:translateX(303px) skewX(-17deg)}}
+}
+@media(prefers-reduced-motion:reduce){html[data-launch="reveal"] #titleCard{transition:none}}

@@ -1,0 +1,170 @@
+{
+  "park": {
+    "sx": -0.6829896907216495,
+    "sz": -0.4407216494845361,
+    "tiers": {
+      "low": [
+        448,
+        "park-low.lz4",
+        "5258f0db63e48c0be9770a9326ae551dbabd1823c623f1a7c69c78d645ccb348"
+      ],
+      "standard": [
+        896,
+        "park-standard.lz4",
+        "5d93415007e3a4798a162e73012e2ca4fdab4939675ebf0f29e536c1a09adb6d"
+      ],
+      "high": [
+        1536,
+        "park-high.lz4",
+        "5460d006e0a0b19b6eaf8da0feeb526e3cb7482a743e421ff9d65a0e22965798"
+      ]
+    },
+    "x": -120.41151183975398,
+    "z": -101.88529524181584,
+    "span": 274.33797264858015
+  },
+  "rainbow": {
+    "sx": -0.5665349143610013,
+    "sz": 0.6469038208168643,
+    "tiers": {
+      "low": [
+        448,
+        "rainbow-low.lz4",
+        "a1b21a5d53523a8a796ba7242c0b83d6c99daf3853526ed2cd19f034631bb14d"
+      ],
+      "standard": [
+        896,
+        "rainbow-standard.lz4",
+        "9ec1f99e795884b25d206b06e182c1027e46fe29a306783ec3f0ee63c2cf3f4d"
+      ],
+      "high": [
+        1536,
+        "rainbow-high.lz4",
+        "553bf8cbaca32711aaa2f5d84d9102a63fb71e9ef81800412f4a608984aeb649"
+      ]
+    },
+    "x": -50.67836272438953,
+    "z": -227.82625780589711,
+    "span": 360.7892549732385
+  },
+  "harbor": {
+    "sx": -1.6444444444444444,
+    "sz": 1.1111111111111112,
+    "tiers": {
+      "low": [
+        448,
+        "harbor-low.lz4",
+        "7d6f42bfa2f5463540600986e4b54dd81b4d5020175c2360ba58e6f3a40bbbe2"
+      ],
+      "standard": [
+        896,
+        "harbor-standard.lz4",
+        "e34dfe0085b306e8103e1576ea6becb3b21e10026364d45006884e7da8138d6d"
+      ],
+      "high": [
+        1536,
+        "harbor-high.lz4",
+        "6b262e6c78a020aaf64c28cd8dafa6451048a8a60439f107c6c13ae83d5590e2"
+      ]
+    },
+    "x": -63.34041745722868,
+    "z": -150.6648948368735,
+    "span": 289.5496288804969
+  },
+  "summit": {
+    "sx": 0.5599999999999999,
+    "sz": -0.68,
+    "tiers": {
+      "low": [
+        448,
+        "summit-low.lz4",
+        "24cbe1ac9cee0e82fcc18f498f1bd4998e7959c8f2ea095c8fcc7af8756ed203"
+      ],
+      "standard": [
+        896,
+        "summit-standard.lz4",
+        "4def282130d2340d8735307286f7aeafc7095a5e48e71d81f610e5d583720bb6"
+      ],
+      "high": [
+        1536,
+        "summit-high.lz4",
+        "60f9d4ca52d9f23b1e9eab85c825a876c9de085e3fa50425492795f661e5386f"
+      ]
+    },
+    "x": -157.5905259309078,
+    "z": -136.88992161097121,
+    "span": 299.5954404741067
+  },
+  "forge": {
+    "sx": -1.1296296296296295,
+    "sz": 1.074074074074074,
+    "tiers": {
+      "low": [
+        448,
+        "forge-low.lz4",
+        "f0d1a1e5c3c5f7ea02475b3ced4dc16a2280e1f44b55be65a73126edfc9c82d3"
+      ],
+      "standard": [
+        896,
+        "forge-standard.lz4",
+        "c269e42b35f11bf574414daac0bf0dc0d398769500ca531c2b72aad5a4c1e2c9"
+      ],
+      "high": [
+        1536,
+        "forge-high.lz4",
+        "06fa0e8aa29cf72b7344bb74b9eb8e0229b251d3c984fc4c171fbf3cad783edd"
+      ]
+    },
+    "x": -161.34423588099918,
+    "z": -170.86491148228635,
+    "span": 335.5471330784348
+  },
+  "airport": {
+    "sx": -0.5443037974683544,
+    "sz": 0.5443037974683544,
+    "tiers": {
+      "low": [
+        448,
+        "airport-low.lz4",
+        "399e9e844f6af3ec7051a6cd40b160c9bbb7c58ca4ce92a965f0b05dc875a9a8"
+      ],
+      "standard": [
+        896,
+        "airport-standard.lz4",
+        "253c76ec49f9cdbabc379f800cce0d7d4b1603eeab786512402eed0f88f06dbc"
+      ],
+      "high": [
+        1536,
+        "airport-high.lz4",
+        "90331096cd8c67c80bbc71810d840a7275538c85980c622d7a4634768ed5168c"
+      ]
+    },
+    "x": -137.4757514222411,
+    "z": -105.31806075052238,
+    "span": 331.9383169808232
+  },
+  "wario": {
+    "sx": -0.6075949367088607,
+    "sz": -0.4810126582278481,
+    "tiers": {
+      "low": [
+        640,
+        "wario-low.lz4",
+        "38dd5d5f6e4a55dce890dad3563a19366b14849d92d5485a2c4bf06a86df3231"
+      ],
+      "standard": [
+        1280,
+        "wario-standard.lz4",
+        "d9842241cc0c5e21006ee54b4df49c7f94408b32bffe362eba55f3b7cfe62844"
+      ],
+      "high": [
+        2048,
+        "wario-high.lz4",
+        "1690894773a333211041fa26d67b7965c747abb73984c0413b700e9f1df9b7e8"
+      ]
+    },
+    "x": -204.10439483265367,
+    "z": -195.59741297324274,
+    "span": 601.6399449084305
+  }
+}

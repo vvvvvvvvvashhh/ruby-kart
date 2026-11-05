@@ -4,6 +4,15 @@
 
 **N1n3VASthR33H**
 
+## 在线试玩与离线下载 · Play & Download
+
+- **[在线试玩 · Play online](https://ruby-kart-eight-circuits.vvvvvvvvvashhh.chatgpt.site/)**
+- **[下载打包 HTML · Download offline HTML](https://github.com/vvvvvvvvvashhh/ruby-kart/raw/refs/heads/main/release/MarioKart8-Ruby-3DS.html)**（约 51.3 MB）
+
+下载后，用浏览器打开 `MarioKart8-Ruby-3DS.html` 即可离线游玩。若点击下载链接后浏览器显示源码，请右键链接选择“链接另存为”，保留 `.html` 扩展名。
+
+Open the downloaded `MarioKart8-Ruby-3DS.html` in a browser to play offline. If your browser displays the source, right-click the download link and choose “Save link as”, keeping the `.html` extension.
+
 ## 中文
 
 在七条赛道上参加计时赛、对战赛或七站大奖赛。选择 50cc 至 250cc，搭配车手、车身、轮胎与滑翔翼。漂移积蓄加速，开伞后点按漂移键可做空中特技。游戏可在宝石红 3DS、红蓝 Switch 和珍珠白 Wii U 三款掌机界面中游玩。
